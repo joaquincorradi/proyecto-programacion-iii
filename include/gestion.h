@@ -71,7 +71,9 @@ void Gestion::leerArchivo() {
       }
       celda_actual++;
     }
-    std::cout << std::endl;
+    for (auto& [tmp, datos] : mapaProdutos) {
+      std::cout << tmp << " - " << datos[0] << std::endl;
+    }
   }
 }
 
