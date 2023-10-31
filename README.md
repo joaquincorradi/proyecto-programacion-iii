@@ -37,10 +37,10 @@ Realizar una aplicación informática que lea un archivo `.csv` que brinda la 
 
 | Argumento                            | Descripción                                                               |
 | ------------------------------------ | ------------------------------------------------------------------------- |
-| `total_art_dif`                      | Cantidad total de artículos diferentes                                    |
-| `total_art`                          | Cantidad total de artículos                                               |
+| `total_art_dif`                      | Cantidad total de artículos diferentes listo                              |
+| `total_art`                          | Cantidad total de artículos listo                                         |
 | `min_stock [n]`                      | Listado de artículos con cantidad _n_ o menos de stock                    |
 | `min_stock [n],[deposito]`           | Listado de artículos con cantidad _n_ o menos de stock según un depósito  |
-| `stock [nombre_articulo]`            | El stock total del artículo ingresado como argumento                      |
-| `stock [nombre_articulo],[depósito]` | El stock del artículo en un depósito                                      |
+| `stock [nombre_articulo]`            | El stock total del artículo ingresado como argumento listo                |
+| `stock [nombre_articulo],[depósito]` | El stock del artículo en un depósito listo                                |
 | `max_Stock [n]`                      | Listado de aquellos artículos cuyo stock es igual o supera el número _n_. |
