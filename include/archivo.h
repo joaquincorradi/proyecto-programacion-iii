@@ -15,23 +15,21 @@ private:
   char separador;   // Separador de las celdas del archivo CSV
   std::string path; // Ruta del archivo CSV
 
-  // Mapa de artículos (clave: nombre del artículo, valor: objeto Articulo)
+  /* Mapa de artículos para rápido acceso (clave: nombre del artículo, valor:
+   * objeto Articulo) */
   std::unordered_map<std::string, Articulo> mapaArticulos;
 
   // Variables temporales para almacenar los datos del archivo CSV
   std::string tmpGrupoArticulo, tmpNombreArticulo, tmpQRArticulo;
   std::vector<int> tmpDepositosArticulo;
 
-  int stock;
-
   // Contadores para almacenar la cantidad de artículos
+  int stock;
   int total_art;
   int total_art_dif;
 
 public:
-  Archivo(std::string);
   Archivo();
-  ~Archivo();
 
   int contarColumnas();
 
@@ -39,25 +37,16 @@ public:
 
   std::unordered_map<std::string, Articulo> getMapaArticulos();
 
-  int getTotalArt();
-  int getTotalArtDif();
-};
+  int getTotalArticulos();
+  int getTotalArticulosDiferentes();
 
-/*
- * Constructor de la clase Archivo
- * @param _path Ruta del archivo CSV
- */
-Archivo::Archivo(std::string _path) : path(_path) {}
+  void setPath(std::string);
+};
 
 /*
  * Constructor por defecto de la clase Archivo
  */
 Archivo::Archivo() {}
-
-/*
- * Destructor de la clase Archivo
- */
-Archivo::~Archivo() {}
 
 /*
  * Cuenta la cantidad de columnas del archivo CSV por si se agregan más en el
@@ -78,17 +67,13 @@ int Archivo::contarColumnas() {
   } catch (int e) {
     std::cout << "Error " << e << ": no se pudo abrir el archivo " << path
               << '\n';
-    exit(1);
   }
 
-  while (std::getline(archivo, linea)) {
-    std::stringstream stream(linea);
+  std::getline(archivo, linea);
+  std::stringstream stream(linea);
 
-    while (std::getline(stream, tmp, separador)) {
-      cantidadColumnas++;
-    }
-
-    break;
+  while (std::getline(stream, tmp, separador)) {
+    ++cantidadColumnas;
   }
 
   archivo.close();
@@ -134,29 +119,24 @@ void Archivo::leerCSV() {
 
       // Se almacenan los datos en variables temporales
       switch (i) {
-      case 0:
+      case 0: // Primera columna - grupo
         if (tmpCelda == "0") {
-          // std::cout << "\nGrupo: " << tmpGrupoArticulo << '\n';
           break;
         } else {
           tmpGrupoArticulo = tmpCelda;
-          // std::cout << "\nGrupo: " << tmpGrupoArticulo << '\n';
           break;
         }
-      case 1:
+      case 1: // Segunda columna - nombre
         tmpQRArticulo = tmpCelda;
-        // std::cout << "QR: " << tmpQRArticulo << '\n';
         break;
-      case 2:
+      case 2: // Tercera columna - QR
         tmpNombreArticulo = tmpCelda;
-        // std::cout << "Artículo: " << tmpNombreArticulo << '\n';
         break;
-      default:
+      default: // Cuarta columna en adelante - stock
         try {
           int tmpInt = std::stoi(tmpCelda);
           tmpDepositosArticulo.push_back(tmpInt);
           stock += tmpInt;
-          // std::cout << "Deposito nro " << i - 2 << ": " << tmpInt << '\n';
         } catch (std::invalid_argument &e) {
           std::cout << "Error: " << e.what() << " ";
           std::cout << tmpCelda << '\n';
@@ -189,6 +169,7 @@ void Archivo::leerCSV() {
       mapaArticulos.insert(make_pair(tmpNombreArticulo, articulo));
     }
   }
+
   total_art_dif = total_art - total_art_dif;
   archivo.close();
 }
@@ -205,12 +186,17 @@ std::unordered_map<std::string, Articulo> Archivo::getMapaArticulos() {
  * Obtiene la cantidad total de artículos
  * @return Cantidad total de artículos
  */
-int Archivo::getTotalArt() { return total_art; }
+int Archivo::getTotalArticulos() { return total_art; }
 
 /*
  * Obtiene la cantidad total de artículos distintos
  * @return Cantidad total de artículos distintos
  */
-int Archivo::getTotalArtDif() { return total_art_dif; }
+int Archivo::getTotalArticulosDiferentes() { return total_art_dif; }
+
+/*
+ * Establece la ruta del archivo CSV
+ */
+void Archivo::setPath(std::string path) { this->path = path; }
 
 #endif // __ARCHIVO_H__

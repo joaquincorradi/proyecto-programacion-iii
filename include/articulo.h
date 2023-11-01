@@ -18,7 +18,6 @@ private:
 public:
   Articulo(std::string, std::string, std::string, std::vector<int>, int);
   Articulo();
-  ~Articulo();
 
   std::string getQRArticulo();
 
@@ -50,11 +49,6 @@ Articulo::Articulo(std::string _grupoArticulo, std::string _QRArticulo,
  * Constructor por defecto de la clase Articulo
  */
 Articulo::Articulo() {}
-
-/*
- * Destructor de la clase Articulo
- */
-Articulo::~Articulo() {}
 
 /*
  * Obtiene el código QR del artículo

@@ -16,6 +16,12 @@
 *.o
 *.obj
 
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
 # Executables
 *.exe
 *.out
@@ -31,3 +37,6 @@
 bin/
 # or
 */bin/*
+
+# CMake
+!Makefile
