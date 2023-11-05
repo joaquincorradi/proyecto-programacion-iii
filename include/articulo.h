@@ -26,6 +26,7 @@ public:
   std::string getGrupoArticulo();
 
   std::vector<int> getDepositosArticulo();
+  void setDepositosArticulo(std::vector<int>);
 
   int getStockArticulo();
 };
@@ -73,6 +74,14 @@ std::string Articulo::getGrupoArticulo() { return grupoArticulo; }
  * @return Lista con el stock del artículo en cada depósito
  */
 std::vector<int> Articulo::getDepositosArticulo() { return depositosArticulo; }
+
+/*
+ * Establece la lista con el stock del artículo en cada depósito
+ * @param _depositosArticulo Lista con el stock del artículo en cada depósito
+ */
+void Articulo::setDepositosArticulo(std::vector<int> _depositosArticulo) {
+  depositosArticulo = _depositosArticulo;
+}
 
 /*
  * Obtiene el stock del artículo

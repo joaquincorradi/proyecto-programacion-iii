@@ -160,10 +160,15 @@ void Archivo::leerCSV() {
 
     if (mapaArticulos.find(tmpNombreArticulo) != mapaArticulos.end()) {
       ++total_art_dif;
-      // Convertir total_art_dif a string para agregarlo al nombre del artículo
-      mapaArticulos.insert(make_pair(tmpNombreArticulo + " (" +
-                                         std::to_string(total_art_dif) + ")",
-                                     articulo));
+      // Al haber un articulo repetido sumar solamente el stock de cada deposito
+      for (int i = 0;
+           i < mapaArticulos[tmpNombreArticulo].getDepositosArticulo().size();
+           ++i) {
+        mapaArticulos[tmpNombreArticulo].setDepositosArticulo(
+            mapaArticulos[tmpNombreArticulo].getDepositosArticulo()[i] +
+                articulo.getDepositosArticulo()[i],
+            i);
+      }
     } else {
       // Almacenar el artículo en el mapa de artículos
       mapaArticulos.insert(make_pair(tmpNombreArticulo, articulo));
