@@ -46,8 +46,7 @@ public:
 /*
  * Constructor por defecto de la clase Archivo
  */
-Archivo::Archivo() {
-}
+Archivo::Archivo() {}
 
 /*
  * Cuenta la cantidad de columnas del archivo CSV por si se agregan más en el
@@ -107,6 +106,7 @@ void Archivo::leerCSV() {
   // Saltar la primera línea del archivo
   std::getline(archivo, linea);
 
+  // Ahora se empieza a leer el archivo
   while (std::getline(archivo, linea)) {
     std::stringstream stream(linea);
 
@@ -156,7 +156,8 @@ void Archivo::leerCSV() {
     if (mapaArticulos.find(tmpNombreArticulo) != mapaArticulos.end()) {
       ++total_art_dif;
       // Al haber un articulo repetido sumar solamente el stock de cada deposito
-      mapaArticulos[tmpNombreArticulo].setDepositosArticulo(tmpDepositosArticulo);
+      mapaArticulos[tmpNombreArticulo].setDepositosArticulo(
+          tmpDepositosArticulo);
       mapaArticulos[tmpNombreArticulo].setStockArticulo(stock);
     } else {
       // Almacenar el artículo en el mapa de artículos

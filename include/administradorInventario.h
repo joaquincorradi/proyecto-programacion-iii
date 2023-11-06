@@ -15,6 +15,7 @@ public:
   Administrador(std::string);
 
   void print();
+  void printArticulo(std::string);
 
   void total_art_diff();
 
@@ -23,7 +24,7 @@ public:
   void min_stock(int);
 
   void min_stock_2(int, int);
-  
+
   void max_stock(int);
 
   void max_stock_2(int, int);
@@ -64,18 +65,48 @@ void Administrador::print() {
 }
 
 /*
+ * Muestra el contenido de un artículo
+ * @param nombre_articulo Nombre del artículo
+ */
+void Administrador::printArticulo(std::string nombre_articulo) {
+  std::unordered_map<std::string, Articulo>::iterator itr;
+
+  for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
+    if (itr->second.getNombreArticulo() == nombre_articulo) {
+      std::cout << "\n\t- Nombre del artículo: "
+                << itr->second.getNombreArticulo()
+                << "\n\t- Grupo del artículo: "
+                << itr->second.getGrupoArticulo()
+                << "\n\t- QR del artículo: " << itr->second.getQRArticulo()
+                << "\n\t- Stock del artículo: "
+                << itr->second.getStockArticulo()
+                << "\n\t- Stock en depósitos del artículo: \n";
+
+      for (int i = 0; i < itr->second.getDepositosArticulo().size(); i++) {
+        std::cout << "\t\tDepósito " << i + 1 << ": "
+                  << itr->second.getDepositosArticulo()[i] << " unidades. \n";
+      }
+
+      std::cout << "\n";
+    }
+  }
+}
+
+/*
  * Muestra el total de artículos diferentes
  */
 void Administrador::total_art_diff() {
-  std::cout << "Total de artículos diferentes: "
-            << archivo.getTotalArticulosDiferentes() << "\n";
+  std::cout << "\n\tTotal de artículos diferentes (se ignoran artículos "
+               "repetidos): "
+            << archivo.getTotalArticulosDiferentes() << " unidades\n\n";
 }
 
 /*
  * Muestra el total de artículos
  */
 void Administrador::total_art() {
-  std::cout << "Total de artículos: " << archivo.getTotalArticulos() << "\n";
+  std::cout << "\n\tTotal de artículos (no se ignoran artículos repetidos): "
+            << archivo.getTotalArticulos() << " unidades.\n\n";
 }
 
 /*
@@ -85,13 +116,22 @@ void Administrador::total_art() {
 void Administrador::min_stock(int n) {
   std::unordered_map<std::string, Articulo>::iterator itr;
 
-  std::cout << "Artículos con stock igual o menor a " << n << " unidades:\n\n";
+  try {
+    if (n < 0) {
+      throw n;
+    }
+  } catch (int n) {
+    std::cout << "\n\tError: el número ingresado debe ser positivo.\n\n";
+    return;
+  }
+
+  std::cout << "\n\tArtículos con stock igual o menor a " << n
+            << " unidades:\n\n";
 
   for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
     if (itr->second.getStockArticulo() <= n) {
-      std::cout << "\t " << itr->second.getNombreArticulo()
-                << " - Stock en depósitos: " << itr->second.getStockArticulo()
-                << '\n';
+      std::cout << "\t\t- " << itr->second.getNombreArticulo() << ": "
+                << itr->second.getStockArticulo() << " unidades.\n";
     }
   }
 }
@@ -104,14 +144,27 @@ void Administrador::min_stock(int n) {
 void Administrador::min_stock_2(int n, int deposito) {
   std::unordered_map<std::string, Articulo>::iterator itr;
 
-  std::cout << "Artículos con stock igual o menor a " << n << " unidades en el depósito "
-            << deposito << ":\n\n";
+  try {
+    if (n < 0 || deposito <= 0 ||
+        deposito >
+            mapaArticulos.begin()->second.getDepositosArticulo().size()) {
+      throw n;
+    }
+  } catch (int n) {
+    std::cout << "\n\tError: los números ingresados deben ser positivos o el "
+                 "depósito no existe.\n\n";
+    return;
+  }
+
+  std::cout << "\n\tArtículos con stock igual o menor a " << n
+            << " unidades en el depósito " << deposito << ":\n\n";
 
   for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
-    if (itr->second.getDepositosArticulo()[deposito - 1] <= n) {  // second es el Articulo
-      std::cout << "\t " << itr->second.getNombreArticulo()
-                << " - Stock en depósito " << deposito << ": "
-                << itr->second.getDepositosArticulo()[deposito - 1] << '\n';
+    if (itr->second.getDepositosArticulo()[deposito - 1] <=
+        n) { // second es el Articulo
+      std::cout << "\t\t- " << itr->second.getNombreArticulo() << ": "
+                << itr->second.getDepositosArticulo()[deposito - 1]
+                << " unidades en el depósito " << deposito << ".\n";
     }
   }
 }
@@ -123,13 +176,11 @@ void Administrador::min_stock_2(int n, int deposito) {
 void Administrador::stock(std::string nombre_articulo) {
   std::unordered_map<std::string, Articulo>::iterator itr;
 
-  std::cout << "Stock del artículo " << nombre_articulo << ":\n\n";
+  std::cout << "\n\tStock del artículo " << nombre_articulo << ": ";
 
   for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
     if (itr->second.getNombreArticulo() == nombre_articulo) {
-      std::cout << "\t " << itr->second.getNombreArticulo()
-                << " - Stock total: " << itr->second.getStockArticulo()
-                << '\n';
+      std::cout << itr->second.getStockArticulo() << " unidades.\n\n";
     }
   }
 }
@@ -142,14 +193,24 @@ void Administrador::stock(std::string nombre_articulo) {
 void Administrador::stock_2(std::string nombre_articulo, int deposito) {
   std::unordered_map<std::string, Articulo>::iterator itr;
 
-  std::cout << "Stock del artículo " << nombre_articulo << " en el depósito "
-            << deposito << ":\n\n";
+  try {
+    if (deposito <= 0 ||
+        deposito >
+            mapaArticulos.begin()->second.getDepositosArticulo().size()) {
+      throw deposito;
+    }
+  } catch (int deposito) {
+    std::cout << "\n\tError: el depósito ingresado no existe.\n\n";
+    return;
+  }
+
+  std::cout << "\n\tStock del artículo " << nombre_articulo
+            << " en el depósito " << deposito << ": ";
 
   for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
     if (itr->second.getNombreArticulo() == nombre_articulo) {
-      std::cout << "\t " << itr->second.getNombreArticulo()
-                << " - Stock en depósito " << deposito << ": "
-                << itr->second.getDepositosArticulo()[deposito - 1] << '\n';
+      std::cout << itr->second.getDepositosArticulo()[deposito - 1]
+                << " unidades.\n\n";
     }
   }
 }
@@ -161,13 +222,22 @@ void Administrador::stock_2(std::string nombre_articulo, int deposito) {
 void Administrador::max_stock(int n) {
   std::unordered_map<std::string, Articulo>::iterator itr;
 
-  std::cout << "Artículos con stock igual o mayor a " << n << " unidades:\n\n";
+  try {
+    if (n < 0) {
+      throw n;
+    }
+  } catch (int n) {
+    std::cout << "\n\tError: el número ingresado debe ser positivo.\n\n";
+    return;
+  }
+
+  std::cout << "\n\tArtículos con stock igual o mayor a " << n
+            << " unidades:\n\n";
 
   for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
     if (itr->second.getStockArticulo() >= n) {
-      std::cout << "\t " << itr->second.getNombreArticulo()
-                << " - Stock en depósitos: " << itr->second.getStockArticulo()
-                << '\n';
+      std::cout << "\t\t- " << itr->second.getNombreArticulo() << ": "
+                << itr->second.getStockArticulo() << " unidades.\n";
     }
   }
 }
@@ -179,11 +249,12 @@ void Administrador::max_stock(int n) {
 void Administrador::max_stock_2(int n, int deposito) {
   std::unordered_map<std::string, Articulo>::iterator itr;
 
-  std::cout << "Artículos con stock igual o mayor a " << n << " unidades en el depósito "
-            << deposito << ":\n\n";
+  std::cout << "Artículos con stock igual o mayor a " << n
+            << " unidades en el depósito " << deposito << ":\n\n";
 
   for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
-    if (itr->second.getDepositosArticulo()[deposito - 1] >= n) {  // second es el Articulo
+    if (itr->second.getDepositosArticulo()[deposito - 1] >=
+        n) { // second es el Articulo
       std::cout << "\t " << itr->second.getNombreArticulo()
                 << " - Stock en depósito " << deposito << ": "
                 << itr->second.getDepositosArticulo()[deposito - 1] << '\n';

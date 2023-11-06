@@ -27,24 +27,30 @@ std::string generateQRCode(const std::string &text) {
   return qrCode;
 }
 
-int main() {
-  std::string nombreArticulo;
-
-  Archivo archivo("../../data/database.csv");
-  archivo.leerCSV();
-
-  std::cout << "Generar código QR\n";
-  std::cout << "Ingrese el nombre del artículo: ";
-  getline(std::cin, nombreArticulo);
-
-  std::unordered_map<std::string, Articulo> mapaArticulos =
-      archivo.getMapaArticulos();
-
-  std::string QRData = mapaArticulos[nombreArticulo].getQRArticulo();
-
+std::string getQR(std::string nombreArticulo) {
+  std::string QRData = nombreArticulo;
   std::string qrCode = generateQRCode(QRData);
+  return qrCode;
+}
 
-  std::cout << "\n\n" << qrCode << '\n';
+int main() {
+  // std::string nombreArticulo;
+
+  // Archivo archivo("../../data/database.csv");
+  // archivo.leerCSV();
+
+  // std::cout << "Generar código QR\n";
+  // std::cout << "Ingrese el nombre del artículo: ";
+  // getline(std::cin, nombreArticulo);
+
+  // std::unordered_map<std::string, Articulo> mapaArticulos =
+  //     archivo.getMapaArticulos();
+
+  // std::string QRData = mapaArticulos[nombreArticulo].getQRArticulo();
+
+  // std::string qrCode = generateQRCode(QRData);
+
+  // std::cout << "\n\n" << qrCode << '\n';
 
   return 0;
 }

@@ -7,6 +7,13 @@ void printHelp(char const *argv[]);
 
 int main(int argc, char const *argv[]) {
   Administrador admin("../data/database.csv");
+
+  if (argc == 1) {
+    std::cout << "\nFaltan argumentos. ";
+    printHelp(argv);
+    return 0;
+  }
+
   std::string argumento = argv[1];
 
   if (argumento == "-h" || argumento == "--help") {
@@ -33,8 +40,11 @@ int main(int argc, char const *argv[]) {
     } else if (argc == 4) {
       admin.stock_2((argv[2]), std::stoi(argv[3]));
     }
+  } else if (argumento == "-p" || argumento == "--print") {
+    admin.printArticulo(argv[2]);
   } else {
-    std::cout << "Argumento no válido, use -h o --help para más información\n";
+    std::cout << "\n\n\tArgumento no válido, use -h o --help para más "
+                 "información.\n\n";
   }
 
   return 0;
@@ -76,10 +86,16 @@ void printHelp(char const *argv[]) {
                "depósito específico\n\n";
 
   std::cout << "\t-s [nombre_articulo], --stock [nombre_articulo]\n";
-  std::cout << "\t\tMuestra el stock de un artículo específico (ingresar el nombre del artículo entre comillas)\n\n";
+  std::cout << "\t\tMuestra el stock de un artículo específico (ingresar el "
+               "nombre del artículo entre comillas)\n\n";
 
   std::cout << "\t-s [nombre_articulo] [depósito], --stock [nombre_articulo] "
                "[depósito]\n";
   std::cout << "\t\tMuestra el stock de un artículo específico en un depósito "
-               "específico (ingresar el nombre del artículo entre comillas)\n\n";
+               "específico (ingresar el nombre del\n \t\tartículo entre "
+               "comillas)\n\n";
+
+  std::cout << "\t-p [nombre_articulo], --print [nombre_articulo]\n";
+  std::cout << "\t\tMuestra toda la información de un artículo específico "
+               "(ingresar el nombre del artículo entre\n \t\tcomillas)\n\n";
 }
