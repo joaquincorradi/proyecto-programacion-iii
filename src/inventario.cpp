@@ -21,6 +21,20 @@ int main(int argc, char const *argv[]) {
     } else if (argc == 4) {
       admin.min_stock_2(std::stoi(argv[2]), std::stoi(argv[3]));
     }
+  } else if (argumento == "-max" || argumento == "--max-stock") {
+    if (argc == 3) {
+      admin.max_stock(std::stoi(argv[2]));
+    } else if (argc == 4) {
+      admin.max_stock_2(std::stoi(argv[2]), std::stoi(argv[3]));
+    }
+  } else if (argumento == "-s" || argumento == "--stock") {
+    if (argc == 3) {
+      admin.stock(argv[2]);
+    } else if (argc == 4) {
+      admin.stock_2((argv[2]), std::stoi(argv[3]));
+    }
+  } else {
+    std::cout << "Argumento no válido, use -h o --help para más información\n";
   }
 
   return 0;
@@ -62,10 +76,10 @@ void printHelp(char const *argv[]) {
                "depósito específico\n\n";
 
   std::cout << "\t-s [nombre_articulo], --stock [nombre_articulo]\n";
-  std::cout << "\t\tMuestra el stock de un artículo específico\n\n";
+  std::cout << "\t\tMuestra el stock de un artículo específico (ingresar el nombre del artículo entre comillas)\n\n";
 
   std::cout << "\t-s [nombre_articulo] [depósito], --stock [nombre_articulo] "
                "[depósito]\n";
   std::cout << "\t\tMuestra el stock de un artículo específico en un depósito "
-               "específico\n\n";
+               "específico (ingresar el nombre del artículo entre comillas)\n\n";
 }

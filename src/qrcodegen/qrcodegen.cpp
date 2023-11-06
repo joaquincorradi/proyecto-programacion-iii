@@ -21,7 +21,7 @@
  * in the Software.
  */
 
-#include "../../include/qrcodegen/qrcodegen.hpp"
+#include "../../lib/qrcodegen.hpp"
 
 #include <algorithm>
 #include <cassert>

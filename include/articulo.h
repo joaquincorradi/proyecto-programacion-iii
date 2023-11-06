@@ -29,6 +29,7 @@ public:
   void setDepositosArticulo(std::vector<int>);
 
   int getStockArticulo();
+  void setStockArticulo(int);
 };
 
 /*
@@ -77,10 +78,12 @@ std::vector<int> Articulo::getDepositosArticulo() { return depositosArticulo; }
 
 /*
  * Establece la lista con el stock del artículo en cada depósito
- * @param _depositosArticulo Lista con el stock del artículo en cada depósito
+ * @param tmpDepositosArticulo Lista con el stock del artículo en cada depósito
  */
-void Articulo::setDepositosArticulo(std::vector<int> _depositosArticulo) {
-  depositosArticulo = _depositosArticulo;
+void Articulo::setDepositosArticulo(std::vector<int> tmpDepositosArticulo) {
+  for (int i = 0; i < tmpDepositosArticulo.size(); ++i) {
+    depositosArticulo[i] += tmpDepositosArticulo[i];
+  }
 }
 
 /*
@@ -88,5 +91,13 @@ void Articulo::setDepositosArticulo(std::vector<int> _depositosArticulo) {
  * @return Stock del artículo
  */
 int Articulo::getStockArticulo() { return stockArticulo; }
+
+/*
+ * Establece el stock del artículo
+ * @param tmpStockArticulo Stock del artículo
+ */
+void Articulo::setStockArticulo(int stock) {
+  stockArticulo += stock;
+}
 
 #endif // __ARTICULO_H__

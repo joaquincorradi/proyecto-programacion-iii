@@ -46,7 +46,8 @@ public:
 /*
  * Constructor por defecto de la clase Archivo
  */
-Archivo::Archivo() {}
+Archivo::Archivo() {
+}
 
 /*
  * Cuenta la cantidad de columnas del archivo CSV por si se agregan más en el
@@ -91,6 +92,7 @@ void Archivo::leerCSV() {
 
   total_art = 0;
   total_art_dif = 0;
+  stock = 0;
 
   // Verificar que el archivo se haya abierto correctamente
   try {
@@ -100,7 +102,6 @@ void Archivo::leerCSV() {
   } catch (int e) {
     std::cout << "Error " << e << ": no se pudo abrir el archivo " << path
               << '\n';
-    exit(1);
   }
 
   // Saltar la primera línea del archivo
@@ -152,27 +153,21 @@ void Archivo::leerCSV() {
     Articulo articulo(tmpGrupoArticulo, tmpQRArticulo, tmpNombreArticulo,
                       tmpDepositosArticulo, stock);
 
+    if (mapaArticulos.find(tmpNombreArticulo) != mapaArticulos.end()) {
+      ++total_art_dif;
+      // Al haber un articulo repetido sumar solamente el stock de cada deposito
+      mapaArticulos[tmpNombreArticulo].setDepositosArticulo(tmpDepositosArticulo);
+      mapaArticulos[tmpNombreArticulo].setStockArticulo(stock);
+    } else {
+      // Almacenar el artículo en el mapa de artículos
+      mapaArticulos.insert(make_pair(tmpNombreArticulo, articulo));
+    }
+
     /* Limpiar el vector temporal de depositos para almacenar los datos del
      * siguiente artículo */
     tmpDepositosArticulo.clear();
 
     stock = 0;
-
-    if (mapaArticulos.find(tmpNombreArticulo) != mapaArticulos.end()) {
-      ++total_art_dif;
-      // Al haber un articulo repetido sumar solamente el stock de cada deposito
-      for (int i = 0;
-           i < mapaArticulos[tmpNombreArticulo].getDepositosArticulo().size();
-           ++i) {
-        mapaArticulos[tmpNombreArticulo].setDepositosArticulo(
-            mapaArticulos[tmpNombreArticulo].getDepositosArticulo()[i] +
-                articulo.getDepositosArticulo()[i],
-            i);
-      }
-    } else {
-      // Almacenar el artículo en el mapa de artículos
-      mapaArticulos.insert(make_pair(tmpNombreArticulo, articulo));
-    }
   }
 
   total_art_dif = total_art - total_art_dif;
