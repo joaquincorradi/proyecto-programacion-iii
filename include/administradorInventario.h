@@ -249,15 +249,26 @@ void Administrador::max_stock(int n) {
 void Administrador::max_stock_2(int n, int deposito) {
   std::unordered_map<std::string, Articulo>::iterator itr;
 
-  std::cout << "Artículos con stock igual o mayor a " << n
+  try {
+    if (deposito <= 0 ||
+        deposito >
+            mapaArticulos.begin()->second.getDepositosArticulo().size()) {
+      throw deposito;
+    }
+  } catch (int deposito) {
+    std::cout << "\n\tError: el depósito ingresado no existe.\n\n";
+    return;
+  }
+
+  std::cout << "\n\tArtículos con stock igual o mayor a " << n
             << " unidades en el depósito " << deposito << ":\n\n";
 
   for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
     if (itr->second.getDepositosArticulo()[deposito - 1] >=
         n) { // second es el Articulo
-      std::cout << "\t " << itr->second.getNombreArticulo()
-                << " - Stock en depósito " << deposito << ": "
-                << itr->second.getDepositosArticulo()[deposito - 1] << '\n';
+      std::cout << "\t\t- " << itr->second.getNombreArticulo() << ": "
+                << itr->second.getDepositosArticulo()[deposito - 1]
+                << " unidades en el depósito " << deposito << ".\n";
     }
   }
 }

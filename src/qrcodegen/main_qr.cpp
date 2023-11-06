@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "../../include/archivo.h"
+#include "../../include/administradorInventario.h"
 #include "../../lib/qrcodegen.hpp"
 
 std::string generateQRCode(const std::string &text) {
@@ -28,9 +28,7 @@ std::string generateQRCode(const std::string &text) {
 }
 
 std::string getQR(std::string nombreArticulo) {
-  std::string QRData = nombreArticulo;
-  std::string qrCode = generateQRCode(QRData);
-  return qrCode;
+  Administrador admin("../../data/database.csv");
 }
 
 int main() {
