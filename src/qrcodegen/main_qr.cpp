@@ -7,8 +7,8 @@
 #include "../../lib/qrcodegen.hpp"
 
 std::string generateQRCode(const std::string &text) {
-  qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText(
-      text.c_str(), qrcodegen::QrCode::Ecc::MEDIUM);
+  qrcodegen::QrCode qr =
+      qrcodegen::QrCode::encodeText(text.c_str(), qrcodegen::QrCode::Ecc::LOW);
 
   int size = qr.getSize();
 
@@ -27,28 +27,16 @@ std::string generateQRCode(const std::string &text) {
   return qrCode;
 }
 
-std::string getQR(std::string nombreArticulo) {
+int main(int argc, char const *argv[]) {
   Administrador admin("../../data/database.csv");
-}
 
-int main() {
-  // std::string nombreArticulo;
+  std::string QRData;
+  std::string argumento = argv[1];
 
-  // Archivo archivo("../../data/database.csv");
-  // archivo.leerCSV();
-
-  // std::cout << "Generar código QR\n";
-  // std::cout << "Ingrese el nombre del artículo: ";
-  // getline(std::cin, nombreArticulo);
-
-  // std::unordered_map<std::string, Articulo> mapaArticulos =
-  //     archivo.getMapaArticulos();
-
-  // std::string QRData = mapaArticulos[nombreArticulo].getQRArticulo();
-
-  // std::string qrCode = generateQRCode(QRData);
-
-  // std::cout << "\n\n" << qrCode << '\n';
+  if (argumento == "-qr") {
+    QRData = admin.printQRData(argv[2]);
+    std::cout << generateQRCode(QRData) << std::endl;
+  }
 
   return 0;
 }

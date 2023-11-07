@@ -16,6 +16,7 @@ public:
 
   void print();
   void printArticulo(std::string);
+  std::string printQRData(std::string);
 
   void total_art_diff();
 
@@ -88,6 +89,30 @@ void Administrador::printArticulo(std::string nombre_articulo) {
       }
 
       std::cout << "\n";
+    }
+  }
+}
+
+/*
+ * Devuelve el contenido de un artículo para ser impreso en un código QR
+ * @param nombre_articulo Nombre del artículo
+ */
+std::string Administrador::printQRData(std::string nombre_articulo) {
+  std::unordered_map<std::string, Articulo>::iterator itr;
+
+  for (itr = mapaArticulos.begin(); itr != mapaArticulos.end(); itr++) {
+    if (itr->second.getNombreArticulo() == nombre_articulo) {
+      std::string QRData;
+
+      QRData += itr->second.getNombreArticulo() + "\n";
+      QRData += "Grupo: " + itr->second.getGrupoArticulo() + "\n";
+      QRData += "Depositos:\n";
+
+      for (int i = 0; i < itr->second.getDepositosArticulo().size(); i++) {
+        QRData += std::to_string(itr->second.getDepositosArticulo()[i]) + " ";
+      }
+
+      return QRData;
     }
   }
 }
