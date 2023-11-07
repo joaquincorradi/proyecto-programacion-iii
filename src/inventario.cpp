@@ -1,3 +1,4 @@
+#include <ctime>
 #include <iostream>
 #include <string>
 
@@ -7,6 +8,9 @@ void printHelp(char const *argv[]);
 
 int main(int argc, char const *argv[]) {
   Administrador admin("../data/database.csv");
+
+  clock_t start, end;
+  double duration;
 
   if (argc == 1) {
     std::cout << "\nFaltan argumentos. ";
@@ -19,29 +23,89 @@ int main(int argc, char const *argv[]) {
   if (argumento == "-h" || argumento == "--help") {
     printHelp(argv);
   } else if (argumento == "-artdiff" || argumento == "--total-art-diff") {
+    start = clock();
+
     admin.total_art_diff();
+
+    end = clock();
+    duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+    std::cout << "\n\nTiempo de ejecución: " << duration << " milisegundos\n\n";
   } else if (argumento == "-arttotal" || argumento == "--total-art") {
+    start = clock();
+
     admin.total_art();
+
+    end = clock();
+    duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+    std::cout << "\n\nTiempo de ejecución: " << duration << " milisegundos\n\n";
   } else if (argumento == "-min" || argumento == "--min-stock") {
     if (argc == 3) {
+      start = clock();
+
       admin.min_stock(std::stoi(argv[2]));
+
+      end = clock();
+      duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+      std::cout << "\n\nTiempo de ejecución: " << duration
+                << " milisegundos\n\n";
     } else if (argc == 4) {
+      start = clock();
+
       admin.min_stock_2(std::stoi(argv[2]), std::stoi(argv[3]));
+
+      end = clock();
+      duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+      std::cout << "\n\nTiempo de ejecución: " << duration
+                << " milisegundos\n\n";
     }
   } else if (argumento == "-max" || argumento == "--max-stock") {
     if (argc == 3) {
+      start = clock();
+
       admin.max_stock(std::stoi(argv[2]));
+
+      end = clock();
+      duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+      std::cout << "\n\nTiempo de ejecución: " << duration
+                << " milisegundos\n\n";
     } else if (argc == 4) {
+      start = clock();
+
       admin.max_stock_2(std::stoi(argv[2]), std::stoi(argv[3]));
+
+      end = clock();
+      duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+      std::cout << "\n\nTiempo de ejecución: " << duration
+                << " milisegundos\n\n";
     }
   } else if (argumento == "-s" || argumento == "--stock") {
     if (argc == 3) {
+      start = clock();
+
       admin.stock(argv[2]);
+
+      end = clock();
+      duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+      std::cout << "\n\nTiempo de ejecución: " << duration
+                << " milisegundos\n\n";
     } else if (argc == 4) {
+      start = clock();
+
       admin.stock_2((argv[2]), std::stoi(argv[3]));
+
+      end = clock();
+      duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+      std::cout << "\n\nTiempo de ejecución: " << duration
+                << " milisegundos\n\n";
     }
   } else if (argumento == "-p" || argumento == "--print") {
+    start = clock();
+
     admin.printArticulo(argv[2]);
+
+    end = clock();
+    duration = ((double)(end - start) * 1000) / CLOCKS_PER_SEC;
+    std::cout << "\n\nTiempo de ejecución: " << duration << " milisegundos\n\n";
   } else {
     std::cout << "\n\n\tArgumento no válido, use -h o --help para más "
                  "información.\n\n";

@@ -115,6 +115,7 @@ std::string Administrador::printQRData(std::string nombre_articulo) {
       return QRData;
     }
   }
+  return " ";
 }
 
 /*
